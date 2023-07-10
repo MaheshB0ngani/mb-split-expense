@@ -1,0 +1,13 @@
+.summary {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.user-links li {
+  cursor: pointer;
+}
+
+.user-links li:hover {
+  background-color: #ccc;
+}

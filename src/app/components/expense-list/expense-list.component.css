@@ -1,0 +1,15 @@
+.payer {
+  font-weight: bold;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.btn-group {
+  width: 100%;
+}
+
+.btn-group .btn {
+  cursor: default;
+}

@@ -1,0 +1,19 @@
+.tableFixHead {
+  overflow-y: visible;
+  padding-bottom: 3rem;
+}
+
+.tableFixHead thead th {
+  position: sticky;
+  top: 0;
+}
+
+.controls {
+  margin: 0.5rem 0;
+}
+
+.cards {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}

@@ -1,0 +1,31 @@
+.editors-list {
+  display: inline;
+  list-style: none;
+}
+
+.self-project {
+  font-weight: bold;
+}
+
+.not-self-project {
+  color: rgb(14, 138, 240);
+
+  font-style: italic;
+}
+
+.archived {
+  background-color: #ccc;
+}
+
+.active-project {
+  background-color: #90e0b1;
+}
+
+span.info {
+  font-size: 0.8rem;
+  font-weight: normal;
+}
+
+.container {
+  padding-bottom: 3rem;
+}

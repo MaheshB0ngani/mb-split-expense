@@ -1,0 +1,74 @@
+<div *ngIf="expenses && expenses.length > 0">
+  <h1>{{'Expenses' | translate}}</h1>
+
+  <div class="btn-group mb-2" role="group" aria-label="First group">
+    <button type="button" class="btn btn-outline-secondary"
+      *ngIf="currentProject && currentProject.expensesCount && currentProject.expensesCount > 0">
+      {{'Expense(s)' | translate}}: {{ currentProject.expensesCount }}
+    </button>
+    <button type="button" class="btn btn-outline-secondary"
+      *ngIf="currentProject && currentProject.total && currentProject.total > 0">
+      {{ 'Total' | translate }}: {{ currentProject.total | currency:"R$" }}
+    </button>
+    <button type="button" class="btn btn-outline-secondary"
+      *ngIf="currentProject && currentProject.expensesAverage && currentProject.expensesAverage > 0">
+      {{ 'Average' | translate }}: {{ currentProject.expensesAverage | currency:"R$" }}
+    </button>
+  </div>
+
+  <table class="table table-sm">
+    <thead class="thead-light">
+      <tr>
+        <th></th>
+        <th>{{'Expense' | translate}}</th>
+        <th>{{'Value' | translate}}</th>
+        <th>{{'Users' | translate}}</th>
+        <th>{{'Options' | translate}}</th>
+        <th>{{'File' | translate}}</th>
+      </tr>
+    </thead>
+    <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+      <tr *ngFor="let expense of expenses, let i = index" cdkDrag [cdkDragData]="expense">
+        <td class="align-middle" cdkDragHandle><i class="fas fa-arrows-alt"></i></td>
+        <td class="align-middle">{{ expense.name }}
+        </td>
+        <td class="align-middle">{{ expense.value | currency: "R$ " }}</td>
+        <td class="align-middle">
+          <span *ngFor="let user of expense.users" [ngClass]="{ payer: checkIsPayer(expense, user) }">{{ user.name }}
+            <span *ngIf="getAmountPaid(expense, user) > 0">(R$ {{getAmountPaid(expense, user)}}) </span>
+            <span *ngIf="expense.weights">[{{expense.getWeightForUser(user)}}]</span>
+            <br />
+          </span>
+          <div *ngIf="expense.weights" class="font-italic">*Custom Weights</div>
+
+        </td>
+        <td class="align-middle">
+          <button class="btn btn-danger btn-sm" (click)="onRemoveExpense(expense)">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+          <button class="btn btn-warning btn-sm ml-1" (click)="onEditExpense(expense)">
+            <i class="fas fa-edit"></i>
+          </button>
+        </td>
+        <td class="align-middle">
+          <label [for]="'upload-'+i" *ngIf="!expense.fileUrl" class="btn btn-primary btn-sm">
+            <i class="fas fa-file-upload"></i>
+          </label>
+          <input *ngIf="!expense.fileUrl" class="form-control" type="file" name="upload" [id]="'upload-'+i"
+            (change)="onFilesAdded(expense, $event)">
+            <div class="progress" *ngIf="percentUploaded > 0 && expenseUploading === expense">
+              <div class="progress-bar" role="progressbar" [ngStyle]="{'width': percentUploaded+'%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          <a *ngIf="expense.fileUrl" href="{{expense.fileUrl}}">
+            <button class="btn btn-success btn-sm">
+              <i class="fas fa-download"></i>
+            </button>
+          </a>
+          <button *ngIf="expense.fileUrl" class="btn btn-danger btn-sm" (click)="onDeleteFile(expense)">
+            <i class="fas fa-times"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
